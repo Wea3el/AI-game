@@ -1,7 +1,7 @@
 #pragma once
 #include "Map.h"
 
-enum EntityType { PLATFORM, PLAYER, ENEMY, BULLET };
+enum EntityType { PLATFORM, PLAYER, ENEMY, BULLET, ENDMSG };
 enum AIType     { WALKER, GUARD, FLY };
 enum AIState    { WALKING, IDLE, ATTACKING, FLYING };
 
@@ -58,6 +58,9 @@ public:
         m_animation_index   = 0,
         m_animation_cols    = 0,
         m_animation_rows    = 0;
+    
+    bool m_player_win = false;
+    bool m_enemies_win = false;
 
     int*    m_animation_indices = NULL;
     float   m_animation_time = 0.0f;
@@ -71,6 +74,9 @@ public:
     bool m_collided_bottom  = false;
     bool m_collided_left    = false;
     bool m_collided_right   = false;
+    
+    bool kill = false;
+    int enemies_inactive_count = 0;
 
     GLuint    m_texture_id;
 
