@@ -54,6 +54,8 @@ public:
             m_animation_down
         };
 
+    bool face_left = false;
+    bool face_right = false;
     int m_animation_frames  = 0,
         m_animation_index   = 0,
         m_animation_cols    = 0,
@@ -76,6 +78,7 @@ public:
     bool m_collided_right   = false;
     
     bool kill = false;
+    bool m_is_shot = false;
     int enemies_inactive_count = 0;
 
     GLuint    m_texture_id;
@@ -106,6 +109,7 @@ public:
     void ai_guard(Entity* player);
     void ai_fly(Entity* player, float delta_time);
 
+    
     void activate() { m_is_active = true; };
     void deactivate() { m_is_active = false; };
 

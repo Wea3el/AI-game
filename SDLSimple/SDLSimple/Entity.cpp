@@ -111,7 +111,7 @@ void Entity::ai_fly(Entity* player, float delta_time)
 {
     switch (m_ai_state) {
     case IDLE:
-        if (glm::distance(m_position, player->get_position()) < 3.0f) m_ai_state = FLYING;
+        if (glm::distance(m_position, player->get_position()) < 5.0f) m_ai_state = FLYING;
         break;
 
     case FLYING:
@@ -167,13 +167,27 @@ void Entity::ai_guard(Entity* player)
     }
 }
 
-
 void Entity::update(float delta_time, Entity* player, Entity* objects, int object_count, Map* map)
 {
     if (!m_is_active) return;
 
     
-
+    if (m_entity_type == BULLET){
+        if(this->m_is_shot){
+            this->m_is_shot = false;
+            if(player->face_left){
+                m_walk_direction = -1.0f;
+            }
+            else{
+                m_walk_direction = 1.0f;
+            }
+        }
+        m_movement = glm::vec3(m_walk_direction, 0.0f, 0.0f);
+        if(this->get_position().x - player->get_position().x > 3.0f || this->get_position().x - player->get_position().x < -3.0f){
+            m_movement = glm::vec3(0.0f, 0.0f, 0.0f);
+            this->deactivate();
+        }
+    }
     if (m_entity_type == ENEMY) ai_activate(player, delta_time);
     
     m_collided_top = false;
@@ -235,6 +249,13 @@ void const Entity::check_collision_y(Entity* collidable_entities, int collidable
 
         if (check_collision(collidable_entity))
         {
+            if(this->m_entity_type == BULLET){
+                this->deactivate();
+                collidable_entity->deactivate();
+                enemies_inactive_count +=1;
+                kill = true;
+                this->m_is_shot = false;
+            }
             float y_distance = fabs(m_position.y - collidable_entity->get_position().y);
             float y_overlap = fabs(y_distance - (m_height / 2.0f) - (collidable_entity->get_height() / 2.0f));
             if (m_velocity.y > 0) {
@@ -249,10 +270,7 @@ void const Entity::check_collision_y(Entity* collidable_entities, int collidable
                 m_position.y += y_overlap;
                 m_velocity.y = 0;
                 m_collided_bottom = true;
-                collidable_entity->deactivate();
-                enemies_inactive_count +=1;
-                kill = true;
-                
+                m_enemies_win = true;
             }
         }
     }
@@ -266,6 +284,13 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
 
         if (check_collision(collidable_entity))
         {
+            if(this->m_entity_type == BULLET){
+                this->deactivate();
+                collidable_entity->deactivate();
+                enemies_inactive_count +=1;
+                kill = true;
+                this->m_is_shot = false;
+            }
             float x_distance = fabs(m_position.x - collidable_entity->get_position().x);
             float x_overlap = fabs(x_distance - (m_width / 2.0f) - (collidable_entity->get_width() / 2.0f));
             if (m_velocity.x > 0) {
@@ -356,10 +381,18 @@ void const Entity::check_collision_x(Map* map)
         m_position.x += penetration_x;
         m_velocity.x = 0;
         m_collided_left = true;
+        if(this->m_entity_type == BULLET){
+            this->deactivate();
+            this->m_is_shot = false;
+        }
        
     }
     if (map->is_solid(right, &penetration_x, &penetration_y) && m_velocity.x > 0)
     {
+        if(this->m_entity_type == BULLET){
+            this->deactivate();
+            this->m_is_shot = false;
+        }
         m_position.x -= penetration_x;
         m_velocity.x = 0;
         m_collided_right = true;

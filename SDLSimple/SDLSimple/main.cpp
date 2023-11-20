@@ -69,9 +69,9 @@ const char  SPRITESHEET_FILEPATH[]  = "assets/doc.png",
             ENEMY1_FILEPATH[]        = "assets/MutilatedStumbler.png",
             ENEMY2_FILEPATH[]        = "assets/GhastlyEye.png",
             ENEMY3_FILEPATH[]        = "assets/BrittleArcher.png",
-            WIN_FILEPATH[]         = "assets/you_win.png",
             TEXT_FILEPATH[]         = "assets/font1.png",
-            LOSE_FILEPATH[]         = "assets/failed.jpeg";
+            BULLET_FILEPATH[]         = "assets/new_bullet.png";
+        
 
 const int NUMBER_OF_TEXTURES = 1;
 const GLint LEVEL_OF_DETAIL = 0;
@@ -81,10 +81,10 @@ int enemies_inactive_count =0;
 bool shooting = false;
 unsigned int LEVEL_1_DATA[] =
 {
-    0,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0,  0,  0, 0,   1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     1,  1,  0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-    26, 26, 1, 1,   0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+    26, 26, 1, 1,   1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     26, 26, 26, 26, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 };
 
@@ -183,8 +183,8 @@ void initialise()
     g_game_state.bullet->set_position(glm::vec3(0.0f, 0.0f, 0.0f));
     g_game_state.bullet->set_movement(glm::vec3(0.0f));
     g_game_state.bullet->set_speed(2.5f);
-    g_game_state.bullet->set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
-    g_game_state.bullet->m_texture_id = load_texture(SPRITESHEET_FILEPATH);
+    
+    g_game_state.bullet->m_texture_id = load_texture(BULLET_FILEPATH);
     g_game_state.bullet->deactivate();
     
     
@@ -290,10 +290,11 @@ void process_input()
                 break;
                 
             case SDLK_d:
-                if (!shooting)
+                if (!g_game_state.bullet->m_is_shot)
                 {
-                    g_game_state.player->m_is_jumping = true;
-
+                    g_game_state.bullet->set_position(glm::vec3(g_game_state.player->get_position().x+1.0f, g_game_state.player->get_position().y, 0.0f));
+                    g_game_state.bullet->activate();
+                    g_game_state.bullet->m_is_shot = true;
                 }
                 break;
 
@@ -311,12 +312,15 @@ void process_input()
     if (key_state[SDL_SCANCODE_LEFT])
     {
         g_game_state.player->move_left();
-//        g_game_state.player->m_animation_indices = g_game_state.player->m_walking[g_game_state.player->LEFT];
+        g_game_state.player->face_left = true;
+        
+
     }
     else if (key_state[SDL_SCANCODE_RIGHT])
     {
         g_game_state.player->move_right();
-//        g_game_state.player->m_animation_indices = g_game_state.player->m_walking[g_game_state.player->RIGHT];
+        g_game_state.player->face_left = false;
+
     }
 
     // This makes sure that the player can't move faster diagonally
@@ -343,9 +347,10 @@ void update()
     while (delta_time >= FIXED_TIMESTEP)
     {
         g_game_state.player->update(FIXED_TIMESTEP, g_game_state.player, g_game_state.enemies, ENEMY_COUNT, g_game_state.map);
+        g_game_state.bullet->update(FIXED_TIMESTEP, g_game_state.player, g_game_state.enemies, ENEMY_COUNT, g_game_state.map);
         for (int i = 0; i < ENEMY_COUNT; i++) g_game_state.enemies[i].update(FIXED_TIMESTEP, g_game_state.player, NULL, 0, g_game_state.map);
-        if(g_game_state.player->kill){
-            g_game_state.player->kill= false;
+        if(g_game_state.bullet->kill){
+            g_game_state.bullet->kill= false;
             Mix_PlayChannel(-1, g_game_state.death_sfx, 0);
             
         }
@@ -437,13 +442,14 @@ void render()
         draw_text(&g_shader_program, text_texture_id, "YOU LOSE", 0.5f, 0.05f, glm::vec3(g_game_state.player->get_position().x,0.0f,0.0f));
         
     }
-    else if(g_game_state.player->enemies_inactive_count == ENEMY_COUNT){
+    else if(g_game_state.bullet->enemies_inactive_count == ENEMY_COUNT){
         GLuint text_texture_id = load_texture(TEXT_FILEPATH);
         draw_text(&g_shader_program, text_texture_id, "YOU WIN", 0.5f, 0.05f, glm::vec3(g_game_state.player->get_position().x,0.0f,0.0f));
         g_game_state.player->m_player_win = true;
     }
     if(!g_game_state.player->m_enemies_win && !g_game_state.player->m_player_win){
         g_game_state.player->render(&g_shader_program);
+        
         g_game_state.map->render(&g_shader_program);
         
         for (int i = 0; i < ENEMY_COUNT; i++){
@@ -451,6 +457,10 @@ void render()
                 g_game_state.enemies[i].render(&g_shader_program);
             }
         }
+        if(g_game_state.bullet->get_activated()){
+            g_game_state.bullet->render(&g_shader_program);
+        }
+        
     }
        
 
