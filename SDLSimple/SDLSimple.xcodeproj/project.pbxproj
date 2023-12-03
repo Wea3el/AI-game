@@ -20,6 +20,14 @@
 		44161AF12B0893D30057580E /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44161AE62B0893D30057580E /* Entity.cpp */; };
 		44161AF22B0893D70057580E /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 44161AE42B0893D30057580E /* shaders */; };
 		44161AF32B0893DA0057580E /* assets in CopyFiles */ = {isa = PBXBuildFile; fileRef = 44161ACF2B0893D10057580E /* assets */; };
+		44317C3E2B1BF46700BF40F3 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C3C2B1BF46700BF40F3 /* Scene.cpp */; };
+		44317C412B1BF47D00BF40F3 /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C3F2B1BF47D00BF40F3 /* Utility.cpp */; };
+		44317C442B1BF4C200BF40F3 /* LevelA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C422B1BF4C200BF40F3 /* LevelA.cpp */; };
+		44317C8B2B1CEB4900BF40F3 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C892B1CEB4900BF40F3 /* Menu.cpp */; };
+		44317C8F2B1D2AF500BF40F3 /* LevelB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C8D2B1D2AF500BF40F3 /* LevelB.cpp */; };
+		44317C932B1D3F4200BF40F3 /* LevelC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C922B1D3F4200BF40F3 /* LevelC.cpp */; };
+		44317C962B1D40BF00BF40F3 /* Win.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C942B1D40BF00BF40F3 /* Win.cpp */; };
+		44317C9A2B1D40EC00BF40F3 /* Lose.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44317C982B1D40EC00BF40F3 /* Lose.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +65,22 @@
 		44161AE32B0893D30057580E /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		44161AE42B0893D30057580E /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
 		44161AE62B0893D30057580E /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
+		44317C3C2B1BF46700BF40F3 /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		44317C3F2B1BF47D00BF40F3 /* Utility.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utility.cpp; sourceTree = "<group>"; };
+		44317C422B1BF4C200BF40F3 /* LevelA.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LevelA.cpp; sourceTree = "<group>"; };
+		44317C452B1BF69E00BF40F3 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		44317C462B1BF69E00BF40F3 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		44317C472B1BF69E00BF40F3 /* LevelA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelA.h; sourceTree = "<group>"; };
+		44317C892B1CEB4900BF40F3 /* Menu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Menu.cpp; sourceTree = "<group>"; };
+		44317C8C2B1CEF0300BF40F3 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
+		44317C8D2B1D2AF500BF40F3 /* LevelB.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LevelB.cpp; sourceTree = "<group>"; };
+		44317C902B1D2B1100BF40F3 /* LevelB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelB.h; sourceTree = "<group>"; };
+		44317C912B1D3F4200BF40F3 /* LevelC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelC.h; sourceTree = "<group>"; };
+		44317C922B1D3F4200BF40F3 /* LevelC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelC.cpp; sourceTree = "<group>"; };
+		44317C942B1D40BF00BF40F3 /* Win.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Win.cpp; sourceTree = "<group>"; };
+		44317C972B1D40EC00BF40F3 /* Win.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Win.h; sourceTree = "<group>"; };
+		44317C982B1D40EC00BF40F3 /* Lose.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lose.cpp; sourceTree = "<group>"; };
+		44317C992B1D40EC00BF40F3 /* Lose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lose.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +119,16 @@
 		44161A0C2B088E3B0057580E /* SDLSimple */ = {
 			isa = PBXGroup;
 			children = (
+				44317C982B1D40EC00BF40F3 /* Lose.cpp */,
+				44317C992B1D40EC00BF40F3 /* Lose.h */,
+				44317C972B1D40EC00BF40F3 /* Win.h */,
+				44317C922B1D3F4200BF40F3 /* LevelC.cpp */,
+				44317C912B1D3F4200BF40F3 /* LevelC.h */,
+				44317C902B1D2B1100BF40F3 /* LevelB.h */,
+				44317C8C2B1CEF0300BF40F3 /* Menu.h */,
+				44317C472B1BF69E00BF40F3 /* LevelA.h */,
+				44317C452B1BF69E00BF40F3 /* Scene.h */,
+				44317C462B1BF69E00BF40F3 /* Utility.h */,
 				44161ACF2B0893D10057580E /* assets */,
 				44161AE62B0893D30057580E /* Entity.cpp */,
 				44161AE22B0893D20057580E /* Entity.h */,
@@ -109,6 +143,12 @@
 				44161ADB2B0893D20057580E /* sprite.cpp */,
 				44161ADC2B0893D20057580E /* sprite.hpp */,
 				44161ADD2B0893D20057580E /* stb_image.h */,
+				44317C3C2B1BF46700BF40F3 /* Scene.cpp */,
+				44317C3F2B1BF47D00BF40F3 /* Utility.cpp */,
+				44317C422B1BF4C200BF40F3 /* LevelA.cpp */,
+				44317C892B1CEB4900BF40F3 /* Menu.cpp */,
+				44317C8D2B1D2AF500BF40F3 /* LevelB.cpp */,
+				44317C942B1D40BF00BF40F3 /* Win.cpp */,
 			);
 			path = SDLSimple;
 			sourceTree = "<group>";
@@ -182,9 +222,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44317C412B1BF47D00BF40F3 /* Utility.cpp in Sources */,
+				44317C442B1BF4C200BF40F3 /* LevelA.cpp in Sources */,
+				44317C932B1D3F4200BF40F3 /* LevelC.cpp in Sources */,
 				44161AEC2B0893D30057580E /* Map.cpp in Sources */,
+				44317C3E2B1BF46700BF40F3 /* Scene.cpp in Sources */,
+				44317C8B2B1CEB4900BF40F3 /* Menu.cpp in Sources */,
 				44161AEE2B0893D30057580E /* ShaderProgram.cpp in Sources */,
 				44161AF12B0893D30057580E /* Entity.cpp in Sources */,
+				44317C9A2B1D40EC00BF40F3 /* Lose.cpp in Sources */,
+				44317C962B1D40BF00BF40F3 /* Win.cpp in Sources */,
+				44317C8F2B1D2AF500BF40F3 /* LevelB.cpp in Sources */,
 				44161AED2B0893D30057580E /* sprite.cpp in Sources */,
 				44161AE72B0893D30057580E /* helper.cpp in Sources */,
 				44161AE92B0893D30057580E /* main.cpp in Sources */,

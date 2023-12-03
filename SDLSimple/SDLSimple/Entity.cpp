@@ -236,6 +236,20 @@ void Entity::update(float delta_time, Entity* player, Entity* objects, int objec
 
         m_velocity.y += m_jumping_power;
     }
+    timer += delta_time;
+    
+    if(collided_enemy_x || collided_enemy_y){
+        
+        if(m_entity_type == PLAYER && timer > 2){
+            
+            player->player_lives -= 1;
+            std::cout << player->player_lives << std::endl;
+            timer = 0;
+        }
+        if( player->player_lives == 0){
+            m_enemies_win = true;
+        }
+    }
 
     m_model_matrix = glm::mat4(1.0f);
     m_model_matrix = glm::translate(m_model_matrix, m_position);
@@ -261,17 +275,18 @@ void const Entity::check_collision_y(Entity* collidable_entities, int collidable
             if (m_velocity.y > 0) {
                 m_position.y -= y_overlap;
                 m_velocity.y = 0;
-            
                 m_collided_top = true;
-                m_enemies_win = true;
-                
+                collided_enemy_y = true;
             }
             else if (m_velocity.y < 0) {
                 m_position.y += y_overlap;
                 m_velocity.y = 0;
                 m_collided_bottom = true;
-                m_enemies_win = true;
+                collided_enemy_y = true;
             }
+        }
+        else{
+            collided_enemy_y = false;
         }
     }
 }
@@ -297,14 +312,18 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
                 m_position.x -= x_overlap;
                 m_velocity.x = 0;
                 m_collided_right = true;
-                m_enemies_win = true;
+                collided_enemy_x = true;
             }
             else if (m_velocity.x < 0) {
                 m_position.x += x_overlap;
                 m_velocity.x = 0;
                 m_collided_left = true;
-                m_enemies_win = true;
+                collided_enemy_x = true;
+                
             }
+        }
+        else{
+            collided_enemy_x = false;
         }
     }
 }

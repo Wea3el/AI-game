@@ -35,6 +35,8 @@ private:
 
     float m_width = 1;
     float m_height = 1;
+    
+    
 
 
 public:
@@ -45,6 +47,10 @@ public:
                         UP      = 2,
                         DOWN    = 3;
 
+    int player_lives = 3;
+    bool collided_enemy_x = false;
+    bool collided_enemy_y = false;
+    float timer = 0.0f; 
     // ————— ANIMATION ————— //
     int** m_walking = new int* [4]
         {
