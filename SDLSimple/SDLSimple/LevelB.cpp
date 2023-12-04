@@ -24,9 +24,9 @@ unsigned int LEVEL_3_DATA[] =
     26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
     26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
     26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
-    26,  1,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
+    26,  1,  0, 0,   0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 26,
     26, 26, 1, 1,   1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-    26, 26, 26, 26, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+    26, 26, 26, 26, 0, 26, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 };
 
 LevelB::~LevelB()
@@ -53,7 +53,7 @@ void LevelB::initialise()
     // Existing
     m_state.player = new Entity();
     m_state.player->set_entity_type(PLAYER);
-    m_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
+    m_state.player->set_position(glm::vec3(2.0f, 0.0f, 0.0f));
     m_state.player->set_movement(glm::vec3(0.0f));
     m_state.player->set_speed(2.5f);
     m_state.player->set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
@@ -97,10 +97,10 @@ void LevelB::initialise()
     m_state.death_sfx = Mix_LoadWAV(DEATH_FILEPATH);
 
     
-    
+    m_number_of_enemies = 5;
     GLuint enemy1_texture_id = Utility::load_texture(ENEMY1_FILEPATH);
     GLuint enemy3_texture_id = Utility::load_texture(ENEMY3_FILEPATH);
-    m_state.enemies = new Entity[ENEMY_COUNT];
+    m_state.enemies = new Entity[m_number_of_enemies];
     for (int i = 0; i < m_number_of_enemies; i++){
 
         m_state.enemies[i].set_movement(glm::vec3(0.0f));
@@ -115,7 +115,7 @@ void LevelB::initialise()
         m_state.enemies[i].set_height(1.0f);
         m_state.enemies[i].set_width(1.0f);
     }
-    m_state.enemies[0].set_position(glm::vec3(4.0f, 10.0f, 0.0f));
+    m_state.enemies[0].set_position(glm::vec3(5.0f, 1.0f, 0.0f));
     m_state.enemies[0].set_entity_type(ENEMY);
     m_state.enemies[0].set_ai_type(GUARD);
     m_state.enemies[0].set_ai_state(IDLE);
@@ -123,12 +123,19 @@ void LevelB::initialise()
     
    
     
+    for (int i = 1; i < m_number_of_enemies; i++){
+        m_state.enemies[i].set_position(glm::vec3(8.0f+i*2, 5.0f, 0.0f));
+        m_state.enemies[i].set_entity_type(ENEMY);
+        m_state.enemies[i].set_ai_type(WALKER);
+        m_state.enemies[i].set_ai_state(WALKING);
+        m_state.enemies[i].m_texture_id = enemy3_texture_id;
+        
+        
+    }
     
-    m_state.enemies[1].set_position(glm::vec3(10.0f, 0.0f, 0.0f));
-    m_state.enemies[1].set_entity_type(ENEMY);
-    m_state.enemies[1].set_ai_type(WALKER);
-    m_state.enemies[1].set_ai_state(WALKING);
-    m_state.enemies[1].m_texture_id = enemy3_texture_id;
+    
+    
+    
     
 }
 
@@ -136,9 +143,9 @@ void LevelB::initialise()
 void LevelB::update(float delta_time, int lives)
 {
     m_state.player->player_lives = lives;
-    m_state.player->update(delta_time, m_state.player, m_state.enemies, ENEMY_COUNT, m_state.map);
-    m_state.bullet->update(delta_time, m_state.player, m_state.enemies, ENEMY_COUNT, m_state.map);
-    for (int i = 0; i < ENEMY_COUNT; i++) m_state.enemies[i].update(delta_time, m_state.player, NULL, 0, m_state.map);
+    m_state.player->update(delta_time, m_state.player, m_state.enemies, m_number_of_enemies, m_state.map);
+    m_state.bullet->update(delta_time, m_state.player, m_state.enemies, m_number_of_enemies, m_state.map);
+    for (int i = 0; i <  m_number_of_enemies; i++) m_state.enemies[i].update(delta_time, m_state.player, NULL, 0, m_state.map);
     if(m_state.bullet->kill){
         m_state.bullet->kill= false;
         Mix_PlayChannel(-1, m_state.death_sfx, 0);
@@ -157,7 +164,7 @@ void LevelB::render(ShaderProgram *program)
     
     m_state.map->render(program);
     
-    for (int i = 0; i < ENEMY_COUNT; i++){
+    for (int i = 0; i < m_number_of_enemies; i++){
         if(m_state.enemies[i].get_activated()){
             m_state.enemies[i].render(program);
         }

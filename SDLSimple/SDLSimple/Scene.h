@@ -36,11 +36,11 @@ class Scene {
 public:
     // ————— ATTRIBUTES ————— //
     
-    int m_number_of_enemies = 2;
+    int m_number_of_enemies= 2;
     
     GameState m_state;
     
-    int cur_id;
+    
     // ————— METHODS ————— //
     virtual void initialise() = 0;
     virtual void update(float delta_time,int lives) = 0;

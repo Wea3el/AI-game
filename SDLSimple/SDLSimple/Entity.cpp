@@ -71,6 +71,7 @@ void Entity::draw_sprite_from_texture_atlas(ShaderProgram* program, GLuint textu
     glVertexAttribPointer(program->get_tex_coordinate_attribute(), 2, GL_FLOAT, false, 0, tex_coords);
     glEnableVertexAttribArray(program->get_tex_coordinate_attribute());
 
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glDisableVertexAttribArray(program->get_position_attribute());
@@ -147,7 +148,7 @@ void Entity::ai_guard(Entity* player)
 {
     switch (m_ai_state) {
     case IDLE:
-        if (glm::distance(m_position, player->get_position()) < 3.0f) m_ai_state = WALKING;
+        if (glm::distance(m_position.x, player->get_position().x) < 3.0f) m_ai_state = WALKING;
         break;
 
     case WALKING:
@@ -250,6 +251,8 @@ void Entity::update(float delta_time, Entity* player, Entity* objects, int objec
             m_enemies_win = true;
         }
     }
+    collided_enemy_x = false;
+    collided_enemy_y = false;
 
     m_model_matrix = glm::mat4(1.0f);
     m_model_matrix = glm::translate(m_model_matrix, m_position);
@@ -285,9 +288,7 @@ void const Entity::check_collision_y(Entity* collidable_entities, int collidable
                 collided_enemy_y = true;
             }
         }
-        else{
-            collided_enemy_y = false;
-        }
+        
     }
 }
 
@@ -322,9 +323,7 @@ void const Entity::check_collision_x(Entity* collidable_entities, int collidable
                 
             }
         }
-        else{
-            collided_enemy_x = false;
-        }
+       
     }
 }
 

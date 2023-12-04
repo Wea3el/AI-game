@@ -227,10 +227,15 @@ void update()
     g_view_matrix = glm::mat4(1.0f);
 
     if(g_current_scene != g_levels[0] && g_current_scene != g_levels[4] && g_current_scene != g_levels[5]){
-        if (g_current_scene->m_state.player->get_position().x > LEVEL1_LEFT_EDGE) {
-                 g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-g_current_scene->m_state.player->get_position().x, 3.75, 0));
-             } else {
-                 g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-5, 3.75, 0));
+        if (g_current_scene->m_state.player->get_position().x < LEVEL1_LEFT_EDGE) {
+            g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-5, 3.75, 0));
+                
+             }
+        else if(g_current_scene->m_state.player->get_position().x > 14.5f){
+            g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-14.5, 3.75, 0));
+        }
+        else {
+            g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-g_current_scene->m_state.player->get_position().x, 3.75, 0));
              }
     }else{
         g_view_matrix = glm::translate(g_view_matrix, glm::vec3(0, 0, 0));
@@ -240,11 +245,12 @@ void update()
     
     if (g_current_scene->m_state.next_scene_id >= 0){
         switch_to_scene(g_levels[g_current_scene->m_state.next_scene_id]);
-        std::cout << "switch";
+        
     }
     if(g_current_scene->m_state.player->m_enemies_win){
         switch_to_scene(g_levels[5]);
     }
+    
 }
 
 void render()

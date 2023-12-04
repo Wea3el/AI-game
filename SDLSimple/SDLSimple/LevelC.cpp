@@ -21,10 +21,10 @@ unsigned int LEVEL_4_DATA[] =
 {
     26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
     26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
+    26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 26,
+    26,  0,  0, 1,   1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
     26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
-    26,  0,  0, 0,   1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
-    26,  0,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26,
-    26,  1,  0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 26,
+    26,  1,  0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 26,
     26, 26, 1, 1,   1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     26, 26, 26, 26, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 };
@@ -97,10 +97,12 @@ void LevelC::initialise()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     GLuint enemy1_texture_id = Utility::load_texture(ENEMY1_FILEPATH);
-    GLuint enemy2_texture_id = Utility::load_texture(ENEMY2_FILEPATH);
+        
     GLuint enemy3_texture_id = Utility::load_texture(ENEMY3_FILEPATH);
-    m_state.enemies = new Entity[ENEMY_COUNT];
-    for (int i = 0; i < ENEMY_COUNT; i++){
+    
+    m_number_of_enemies = 4;
+    m_state.enemies = new Entity[m_number_of_enemies];
+    for (int i = 0; i < m_number_of_enemies; i++){
 
         m_state.enemies[i].set_movement(glm::vec3(0.0f));
         m_state.enemies[i].set_speed(0.5f);
@@ -114,20 +116,31 @@ void LevelC::initialise()
         m_state.enemies[i].set_height(1.0f);
         m_state.enemies[i].set_width(1.0f);
     }
-    m_state.enemies[0].set_position(glm::vec3(4.0f, 10.0f, 0.0f));
+    m_state.enemies[0].set_position(glm::vec3(7.0f, 3.0f, 0.0f));
     m_state.enemies[0].set_entity_type(ENEMY);
     m_state.enemies[0].set_ai_type(GUARD);
     m_state.enemies[0].set_ai_state(IDLE);
     m_state.enemies[0].m_texture_id = enemy1_texture_id;
     
+    m_state.enemies[2].set_position(glm::vec3(16.0f, 3.0f, 0.0f));
+    m_state.enemies[2].set_entity_type(ENEMY);
+    m_state.enemies[2].set_ai_type(GUARD);
+    m_state.enemies[2].set_ai_state(IDLE);
+    m_state.enemies[2].m_texture_id = enemy1_texture_id;
+    
    
     
-    
+   
     m_state.enemies[1].set_position(glm::vec3(10.0f, 0.0f, 0.0f));
     m_state.enemies[1].set_entity_type(ENEMY);
     m_state.enemies[1].set_ai_type(WALKER);
     m_state.enemies[1].set_ai_state(WALKING);
     m_state.enemies[1].m_texture_id = enemy3_texture_id;
+    m_state.enemies[3].set_position(glm::vec3(18.0f, 0.0f, 0.0f));
+    m_state.enemies[3].set_entity_type(ENEMY);
+    m_state.enemies[3].set_ai_type(WALKER);
+    m_state.enemies[3].set_ai_state(WALKING);
+    m_state.enemies[3].m_texture_id = enemy3_texture_id;
     
     }
 
@@ -135,8 +148,8 @@ void LevelC::initialise()
 void LevelC::update(float delta_time,int lives)
 {
     m_state.player->player_lives = lives;
-    m_state.player->update(delta_time, m_state.player, m_state.enemies, ENEMY_COUNT, m_state.map);
-    m_state.bullet->update(delta_time, m_state.player, m_state.enemies, ENEMY_COUNT, m_state.map);
+    m_state.player->update(delta_time, m_state.player, m_state.enemies, m_number_of_enemies, m_state.map);
+    m_state.bullet->update(delta_time, m_state.player, m_state.enemies, m_number_of_enemies, m_state.map);
     for (int i = 0; i < m_number_of_enemies; i++) m_state.enemies[i].update(delta_time, m_state.player, NULL, 0, m_state.map);
     if(m_state.bullet->kill){
         m_state.bullet->kill= false;
@@ -156,7 +169,7 @@ void LevelC::render(ShaderProgram *program)
     
     m_state.map->render(program);
     
-    for (int i = 0; i < ENEMY_COUNT; i++){
+    for (int i = 0; i < m_number_of_enemies; i++){
         if(m_state.enemies[i].get_activated()){
             m_state.enemies[i].render(program);
         }
